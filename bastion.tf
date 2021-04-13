@@ -36,3 +36,29 @@ resource "openstack_compute_instance_v2" "bastion" {
     port = openstack_networking_port_v2.ovn_network.id
   }
 }
+
+resource "null_resource" "users" {
+  for_each = fileset("${path.module}/authorized_keys", "*")
+
+  connection {
+    user        = "ubuntu"
+    host        = openstack_networking_floatingip_associate_v2.fip.floating_ip
+  }
+
+  provisioner "file" {
+    source      = "authorized_keys/${each.key}"
+    destination = "/tmp/${each.key}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo useradd -m -s /bin/bash ${each.key}",
+      "sudo mkdir -p /home/${each.key}/.ssh/",
+      "sudo chown ${each.key}:${each.key} /home/${each.key}/.ssh/",
+      "sudo chmod 0700 /home/${each.key}/.ssh/",
+      "sudo cp /tmp/${each.key} /home/${each.key}/.ssh/authorized_keys",
+      "sudo chown ${each.key}:${each.key} /home/${each.key}/.ssh/authorized_keys",
+      "sudo chmod 0700 /home/${each.key}/.ssh/authorized_keys",
+    ]
+  }
+}

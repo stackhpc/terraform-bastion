@@ -8,5 +8,5 @@ terraform {
 }
 
 provider "openstack" {
-  cloud = "vglab"
+  cloud = var.cloud
 }

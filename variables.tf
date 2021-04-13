@@ -25,3 +25,7 @@ variable "key_pair" {
 variable "user" {
   default = "ubuntu"
 }
+
+variable "cloud" {
+  default = "vglab"
+}

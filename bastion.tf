@@ -3,21 +3,17 @@ data "openstack_compute_flavor_v2" "small" {
 }
 
 data "openstack_images_image_v2" "ubuntu" {
-  name        = "Ubuntu-20.04"
+  name = "Ubuntu-20.04"
 }
 
 data "openstack_networking_network_v2" "ovn_network" {
-  name     = "ovn-network"
+  name = "ovn-network"
 }
 
 resource "openstack_networking_port_v2" "ovn_network" {
   name           = "bastion-ovn-network"
   network_id     = data.openstack_networking_network_v2.ovn_network.id
   admin_state_up = "true"
-}
-
-data "openstack_networking_floatingip_v2" "fip" {
-  address = "185.45.78.150"
 }
 
 resource "openstack_networking_floatingip_associate_v2" "fip" {
@@ -38,15 +34,21 @@ resource "openstack_compute_instance_v2" "bastion" {
 }
 
 resource "null_resource" "users" {
+
+  triggers = {
+    host            = openstack_networking_floatingip_associate_v2.fip.floating_ip
+    authorized_keys = file("authorized_keys/${each.key}")
+  }
+
   for_each = fileset("${path.module}/authorized_keys", "*")
 
   connection {
-    user        = "ubuntu"
-    host        = openstack_networking_floatingip_associate_v2.fip.floating_ip
+    user = "ubuntu"
+    host = self.triggers.host
   }
 
   provisioner "file" {
-    source      = "authorized_keys/${each.key}"
+    content     = self.triggers.authorized_keys
     destination = "/tmp/${each.key}"
   }
 
@@ -61,4 +63,18 @@ resource "null_resource" "users" {
       "sudo chmod 0700 /home/${each.key}/.ssh/authorized_keys",
     ]
   }
+
+  provisioner "remote-exec" {
+    when       = destroy
+    on_failure = continue
+    inline     = ["sudo userdel -r ${each.key}"]
+  }
+}
+
+output "users" {
+  value = keys(null_resource.users)
+}
+
+output "fip" {
+  value = openstack_networking_floatingip_associate_v2.fip.floating_ip
 }

@@ -10,5 +10,5 @@ data "external" "env" { program = ["jq", "-n", "env"] }
 
 
 output "test" {
-  value = "${data.external.env.result}"
+  value = data.external.env.result
 }

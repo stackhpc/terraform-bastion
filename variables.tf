@@ -15,7 +15,7 @@ variable "image" {
 }
 
 variable "flavor" {
-  default = "general.v1.medium"
+  default = "general.v1.tiny"
 }
 
 variable "key_pair" {

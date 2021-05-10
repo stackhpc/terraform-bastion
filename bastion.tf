@@ -26,6 +26,7 @@ resource "openstack_compute_instance_v2" "bastion" {
   image_id        = data.openstack_images_image_v2.ubuntu.id
   flavor_id       = data.openstack_compute_flavor_v2.small.id
   key_pair        = var.key_pair
+  config_drive    = "true"
   security_groups = ["default"]
 
   network {

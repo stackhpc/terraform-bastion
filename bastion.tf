@@ -1,11 +1,3 @@
-data "openstack_compute_flavor_v2" "small" {
-  name = var.flavor
-}
-
-data "openstack_images_image_v2" "ubuntu" {
-  name = var.image
-}
-
 data "openstack_networking_network_v2" "bastion" {
   name = var.network
 }
@@ -23,8 +15,8 @@ resource "openstack_compute_floatingip_associate_v2" "bastion" {
 
 resource "openstack_compute_instance_v2" "bastion" {
   name            = var.name
-  image_id        = data.openstack_images_image_v2.ubuntu.id
-  flavor_id       = data.openstack_compute_flavor_v2.small.id
+  image_id        = var.image
+  flavor_id       = var.flavor
   key_pair        = var.key_pair
   config_drive    = "true"
   security_groups = ["default"]

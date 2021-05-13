@@ -27,5 +27,5 @@ variable "user" {
 }
 
 variable "cloud" {
-  default = "vglab"
+  default = "openstack"
 }

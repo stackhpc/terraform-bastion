@@ -11,7 +11,7 @@ terraform {
     organization = "stackhpc"
 
     workspaces {
-      name = "vglab-bastion"
+      prefix = "bastion-"
     }
   }
 }

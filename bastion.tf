@@ -13,11 +13,15 @@ resource "openstack_compute_floatingip_associate_v2" "bastion" {
   instance_id = openstack_compute_instance_v2.bastion.id
 }
 
+resource "openstack_compute_keypair_v2" "bastion" {
+  name = var.name
+}
+
 resource "openstack_compute_instance_v2" "bastion" {
   name            = var.name
   image_id        = var.image
   flavor_id       = var.flavor
-  key_pair        = var.key_pair
+  key_pair        = var.name
   config_drive    = "true"
   security_groups = ["default"]
 
@@ -30,6 +34,7 @@ resource "null_resource" "users" {
   triggers = {
     host            = var.fip
     user            = var.user
+    private_key     = openstack_compute_keypair_v2.bastion.private_key
     instance        = openstack_compute_instance_v2.bastion.id
     authorized_keys = file("authorized_keys/${each.key}")
   }
@@ -37,8 +42,9 @@ resource "null_resource" "users" {
   for_each = fileset("${path.module}/authorized_keys", "*")
 
   connection {
-    user = self.triggers.user
-    host = self.triggers.host
+    user        = self.triggers.user
+    host        = self.triggers.host
+    private_key = self.triggers.private_key
   }
 
   provisioner "file" {

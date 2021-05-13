@@ -18,10 +18,6 @@ variable "flavor" {
   default = "2d838268-d90e-4db0-8023-7a3638805313" # general.v1.tiny
 }
 
-variable "key_pair" {
-  default = "bharat-mac"
-}
-
 variable "user" {
   default = "ubuntu"
 }

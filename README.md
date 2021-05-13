@@ -1,5 +1,5 @@
-vglab-bastion
-=============
+bastion-terraform
+=================
 
 This repo contains Terraform script for provisioning a bastion host and
 managing users on the instance.

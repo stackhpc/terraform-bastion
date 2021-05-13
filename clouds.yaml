@@ -1,8 +1,5 @@
 clouds:
-  vglab:
-    auth:
-      auth_url: https://api.smslab.stackhpc.com:5000
-      application_credential_id: "6e246cf4507141f3b9fabcb3d402c32f"
+  openstack:
     region_name: "RegionOne"
     interface: "public"
     identity_api_version: 3

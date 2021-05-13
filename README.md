@@ -7,8 +7,10 @@ managing users on the instance.
 Configuration
 -------------
 
-On the repository secret, ensure that `TF_API_TOKEN` is defined which can be
-obtained from <https://app.terraform.io/app/settings/tokens>.
+On the repository, ensure the following variables are set:
+
+    TF_API_TOKEN # obtained from <https://app.terraform.io/app/settings/tokens>
+    TF_WORKSPACE # which matches the prefix bastion-
 
 On the remote terraform backend, ensure that the following variables are defined:
 

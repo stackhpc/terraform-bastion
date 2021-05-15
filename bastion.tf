@@ -14,14 +14,15 @@ resource "openstack_compute_floatingip_associate_v2" "bastion" {
 }
 
 resource "openstack_compute_keypair_v2" "bastion" {
-  name = var.name
+  name       = var.name
+  public_key = var.public_key
 }
 
 resource "openstack_compute_instance_v2" "bastion" {
   name            = var.name
   image_id        = var.image
   flavor_id       = var.flavor
-  key_pair        = var.name
+  key_pair        = openstack_compute_keypair_v2.bastion.id
   config_drive    = "true"
   security_groups = ["default"]
 
@@ -30,16 +31,20 @@ resource "openstack_compute_instance_v2" "bastion" {
   }
 }
 
+locals {
+  users = fileset("${path.module}/authorized_keys", "*")
+}
+
 resource "null_resource" "users" {
+  for_each = local.users
+
   triggers = {
     host            = var.fip
     user            = var.user
-    private_key     = openstack_compute_keypair_v2.bastion.private_key
+    private_key     = var.private_key
     instance        = openstack_compute_instance_v2.bastion.id
     authorized_keys = file("authorized_keys/${each.key}")
   }
-
-  for_each = fileset("${path.module}/authorized_keys", "*")
 
   connection {
     user        = self.triggers.user
@@ -49,7 +54,7 @@ resource "null_resource" "users" {
 
   provisioner "file" {
     content     = self.triggers.authorized_keys
-    destination = "/tmp/${each.key}"
+    destination = "/tmp/${each.key}.pub"
   }
 
   provisioner "remote-exec" {
@@ -58,7 +63,7 @@ resource "null_resource" "users" {
       "sudo mkdir -p /home/${each.key}/.ssh/",
       "sudo chown ${each.key}:${each.key} /home/${each.key}/.ssh/",
       "sudo chmod 0700 /home/${each.key}/.ssh/",
-      "sudo cp /tmp/${each.key} /home/${each.key}/.ssh/authorized_keys",
+      "sudo mv /tmp/${each.key}.pub /home/${each.key}/.ssh/authorized_keys",
       "sudo chown ${each.key}:${each.key} /home/${each.key}/.ssh/authorized_keys",
       "sudo chmod 0700 /home/${each.key}/.ssh/authorized_keys",
     ]
@@ -68,5 +73,39 @@ resource "null_resource" "users" {
     when       = destroy
     on_failure = continue
     inline     = ["sudo userdel -r ${each.key}"]
+  }
+}
+
+resource "null_resource" "sudoers" {
+  for_each = toset(var.sudoers)
+
+  triggers = {
+    host        = var.fip
+    user        = var.user
+    instance    = openstack_compute_instance_v2.bastion.id
+    private_key = var.private_key
+  }
+
+  connection {
+    user        = self.triggers.user
+    host        = self.triggers.host
+    private_key = self.triggers.private_key
+  }
+
+  provisioner "file" {
+    content     = "${each.key} ALL=(ALL) NOPASSWD: ALL"
+    destination = "/tmp/${each.key}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mv /tmp/${each.key} /etc/sudoers.d/${each.key}",
+    ]
+  }
+
+  provisioner "remote-exec" {
+    when       = destroy
+    on_failure = continue
+    inline     = ["sudo rm /etc/sudoers.d/${each.key}"]
   }
 }

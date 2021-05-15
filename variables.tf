@@ -1,27 +1,38 @@
 variable "fip" {
-  default = "185.45.78.150"
+  type = string
 }
 
 variable "name" {
-  default = "vglab-bastion"
+  type = string
 }
 
 variable "network" {
-  default = "ovn-network"
+  type = string
 }
 
 variable "image" {
-  default = "34a622a7-703e-4d43-b116-6fe92f04de14" # Ubuntu-20.04
+  type = string
 }
 
 variable "flavor" {
-  default = "2d838268-d90e-4db0-8023-7a3638805313" # general.v1.tiny
+  type = string
 }
 
 variable "user" {
   default = "ubuntu"
+  type    = string
 }
 
-variable "cloud" {
-  default = "openstack"
+variable "public_key" {
+  type = string
+}
+
+variable "private_key" {
+  sensitive = true
+  type      = string
+}
+
+variable "sudoers" {
+  default = []
+  type    = list(string)
 }

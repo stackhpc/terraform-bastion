@@ -17,5 +17,5 @@ terraform {
 }
 
 provider "openstack" {
-  cloud = var.cloud
+  cloud = "openstack"
 }

@@ -1,5 +1,5 @@
 output "users" {
-  value = keys(null_resource.users)
+  value = local.users
 }
 
 output "fip" {

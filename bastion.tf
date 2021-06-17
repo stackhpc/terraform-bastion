@@ -109,3 +109,25 @@ resource "null_resource" "sudoers" {
     inline     = ["sudo rm /etc/sudoers.d/${each.key}"]
   }
 }
+
+resource "null_resource" "unattended-upgrades" {
+  triggers = {
+    host        = var.fip
+    user        = var.user
+    instance    = openstack_compute_instance_v2.bastion.id
+    private_key = var.private_key
+  }
+
+  connection {
+    user        = self.triggers.user
+    host        = self.triggers.host
+    private_key = self.triggers.private_key
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'Unattended-Upgrade::Automatic-Reboot \"true\";' | sudo tee -a /etc/apt/apt.conf.d/50unattended-upgrades",
+      "echo 'Unattended-Upgrade::Automatic-Reboot-Time \"02:00\";' | sudo tee -a /etc/apt/apt.conf.d/50unattended-upgrades",
+    ]
+  }
+}

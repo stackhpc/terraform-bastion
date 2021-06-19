@@ -131,3 +131,47 @@ resource "null_resource" "unattended-upgrades" {
     ]
   }
 }
+
+resource "null_resource" "host-key" {
+  triggers = {
+    host        = var.fip
+    user        = var.user
+    private_key = var.private_key
+    instance    = openstack_compute_instance_v2.bastion.id
+  }
+
+  connection {
+    user        = self.triggers.user
+    host        = self.triggers.host
+    private_key = self.triggers.private_key
+  }
+
+  provisioner "file" {
+    content     = var.ssh_host_dsa_key
+    destination = "/tmp/ssh_host_dsa_key"
+  }
+
+  provisioner "file" {
+    content     = var.ssh_host_rsa_key
+    destination = "/tmp/ssh_host_rsa_key"
+  }
+
+  provisioner "file" {
+    content     = var.ssh_host_ecdsa_key
+    destination = "/tmp/ssh_host_ecdsa_key"
+  }
+
+  provisioner "file" {
+    content     = var.ssh_host_ed25519_key
+    destination = "/tmp/ssh_host_ed25519_key"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mv /tmp/ssh_host_*_key /etc/ssh/",
+      "sudo chown root:root /etc/ssh/ssh_host_*_key",
+      "sudo chmod 600 /etc/ssh/ssh_host_*_key",
+      "sudo rm /etc/ssh/ssh_host_*_key.pub || true",
+    ]
+  }
+}

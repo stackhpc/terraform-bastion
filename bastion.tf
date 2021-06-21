@@ -132,6 +132,33 @@ resource "null_resource" "unattended-upgrades" {
   }
 }
 
+resource "null_resource" "software" {
+  for_each = toset(var.software)
+
+  triggers = {
+    user        = var.user
+    private_key = var.private_key
+    host        = openstack_networking_floatingip_associate_v2.bastion.floating_ip
+    instance    = openstack_compute_instance_v2.bastion.id
+  }
+
+  connection {
+    user        = self.triggers.user
+    host        = self.triggers.host
+    private_key = self.triggers.private_key
+  }
+
+  provisioner "remote-exec" {
+    inline = ["sudo apt install -y ${each.key}"]
+  }
+
+  provisioner "remote-exec" {
+    when       = destroy
+    on_failure = continue
+    inline     = ["sudo apt remove -y ${each.key}"]
+  }
+}
+
 resource "null_resource" "host-key" {
   triggers = {
     user        = var.user

@@ -147,11 +147,6 @@ resource "null_resource" "host-key" {
   }
 
   provisioner "file" {
-    content     = var.ssh_host_dsa_key
-    destination = "/tmp/ssh_host_dsa_key"
-  }
-
-  provisioner "file" {
     content     = var.ssh_host_rsa_key
     destination = "/tmp/ssh_host_rsa_key"
   }

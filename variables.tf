@@ -41,10 +41,6 @@ variable "ssh_host_ecdsa_key" {
   sensitive = true
 }
 
-variable "ssh_host_dsa_key" {
-  sensitive = true
-}
-
 variable "ssh_host_rsa_key" {
   sensitive = true
 }

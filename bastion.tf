@@ -8,9 +8,9 @@ resource "openstack_networking_port_v2" "bastion" {
   admin_state_up = "true"
 }
 
-resource "openstack_compute_floatingip_associate_v2" "bastion" {
+resource "openstack_networking_floatingip_associate_v2" "bastion" {
   floating_ip = var.fip
-  instance_id = openstack_compute_instance_v2.bastion.id
+  port_id = openstack_networking_port_v2.bastion.id
 }
 
 resource "openstack_compute_keypair_v2" "bastion" {

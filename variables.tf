@@ -37,12 +37,6 @@ variable "sudoers" {
   type    = list(string)
 }
 
-variable "software" {
-  default = ["mosh"]
-  type    = list(string)
-}
-
-
 variable "ssh_host_ecdsa_key" {
   sensitive = true
 }

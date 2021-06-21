@@ -10,7 +10,7 @@ resource "openstack_networking_port_v2" "bastion" {
 
 resource "openstack_networking_floatingip_associate_v2" "bastion" {
   floating_ip = var.fip
-  port_id = openstack_networking_port_v2.bastion.id
+  port_id     = openstack_networking_port_v2.bastion.id
 }
 
 resource "openstack_compute_keypair_v2" "bastion" {
@@ -39,9 +39,9 @@ resource "null_resource" "users" {
   for_each = local.users
 
   triggers = {
-    host            = var.fip
     user            = var.user
     private_key     = var.private_key
+    host            = openstack_networking_floatingip_associate_v2.bastion.floating_ip
     instance        = openstack_compute_instance_v2.bastion.id
     authorized_keys = file("authorized_keys/${each.key}")
   }
@@ -80,10 +80,10 @@ resource "null_resource" "sudoers" {
   for_each = toset(var.sudoers)
 
   triggers = {
-    host        = var.fip
     user        = var.user
-    instance    = openstack_compute_instance_v2.bastion.id
     private_key = var.private_key
+    host        = openstack_networking_floatingip_associate_v2.bastion.floating_ip
+    instance    = openstack_compute_instance_v2.bastion.id
   }
 
   connection {
@@ -112,10 +112,10 @@ resource "null_resource" "sudoers" {
 
 resource "null_resource" "unattended-upgrades" {
   triggers = {
-    host        = var.fip
     user        = var.user
-    instance    = openstack_compute_instance_v2.bastion.id
     private_key = var.private_key
+    host        = openstack_networking_floatingip_associate_v2.bastion.floating_ip
+    instance    = openstack_compute_instance_v2.bastion.id
   }
 
   connection {
@@ -134,10 +134,11 @@ resource "null_resource" "unattended-upgrades" {
 
 resource "null_resource" "host-key" {
   triggers = {
-    host        = var.fip
     user        = var.user
     private_key = var.private_key
+    host        = openstack_networking_floatingip_associate_v2.bastion.floating_ip
     instance    = openstack_compute_instance_v2.bastion.id
+    host_keys   = join("\n", [var.ssh_host_rsa_key, var.ssh_host_ecdsa_key, var.ssh_host_ed25519_key])
   }
 
   connection {

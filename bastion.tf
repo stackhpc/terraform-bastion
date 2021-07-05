@@ -100,6 +100,7 @@ resource "null_resource" "sudoers" {
   provisioner "remote-exec" {
     inline = [
       "sudo mv /tmp/${each.key} /etc/sudoers.d/${each.key}",
+      "sudo chown root:root /etc/sudoers.d/${each.key}",
     ]
   }
 

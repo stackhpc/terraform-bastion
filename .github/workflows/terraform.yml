@@ -19,10 +19,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.0.0
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
@@ -45,7 +45,7 @@ jobs:
         env:
           TF_WORKSPACE: ${{ matrix.workspace }}
 
-      - uses: actions/github-script@0.9.0
+      - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"

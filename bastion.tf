@@ -148,44 +148,12 @@ resource "openstack_networking_secgroup_rule_v2" "ssh" {
   security_group_id = openstack_networking_secgroup_v2.bastion.id
 }
 
-resource "openstack_networking_secgroup_rule_v2" "mosh" {
-  direction         = "ingress"
-  ethertype         = "IPv4"
-  protocol          = "udp"
-  port_range_min    = 60000
-  port_range_max    = 61000
-  remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = openstack_networking_secgroup_v2.bastion.id
-}
-
 resource "openstack_networking_secgroup_rule_v2" "icmp" {
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "icmp"
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = openstack_networking_secgroup_v2.bastion.id
-}
-
-resource "null_resource" "mosh" {
-  triggers = {
-    user        = var.user
-    private_key = var.private_key
-    host        = openstack_networking_floatingip_associate_v2.bastion.floating_ip
-    instance    = openstack_compute_instance_v2.bastion.id
-  }
-
-  connection {
-    user        = self.triggers.user
-    host        = self.triggers.host
-    private_key = self.triggers.private_key
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt install -y mosh",
-      "sudo locale-gen en_GB.UTF-8",
-    ]
-  }
 }
 
 resource "null_resource" "host-key" {

@@ -1,1 +1,2 @@
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICY4CwVM472QS5TYhEwAHge4vbkuBtpVUCC8cyIolYR5 michal@stackhpc.com
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIL6/uFG4VPWZMeB/clOejmiYw4LgdJf6CxBl5mR+3ejhAAAABHNzaDo= michal@stackhpc.com
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIKqlPDzMCL9MQ8zTBcZaRK/7h8R5X9dxOA4fJ8kNlQCzAAAABHNzaDo= michal@stackhpc.com

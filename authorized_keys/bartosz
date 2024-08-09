@@ -1,1 +1,2 @@
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM1iGZ6wblHvuShGuP3yzhoa5ME069yYE2jPFEOAPttC bartosz@stackhpc.com
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIAqynfBdDn/Fy6ciBqmBAqrzvNcj8xW+CD3RKS8f/9/mAAAABHNzaDo= bartosz@stackhpc.com
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICqtw4ZvHzo72WJ3MZG+LBbKHqwkHshyOQE55XI5fjP8AAAABHNzaDo= bartosz@stackhpc.com backup key

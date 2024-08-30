@@ -1,1 +1,2 @@
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDmotY1398fpEXzFF6vq+xXQ0B4DHsKfbwt2b9LIZw3D axel@framework 2024-03-04
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDH49rD1VVAfTY4TGO3r+vSX4L9XPaRscWKkZ9db2g+cAAAABHNzaDo= axel@stackhpc.com - key A - 2024-07-19
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIJCr7Im7pza6lmXEd8CeQyTatmwSAdb4LRVsHaJuTqKFAAAABHNzaDo= axel@stackhpc.com - key B - 2024-08-30

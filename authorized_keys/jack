@@ -1,1 +1,2 @@
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF9cyuKDjQ7ApekXqMjQXN8VjWbiGJ6He7UTvGXKZ4zZ jack_hodgkiss
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAILVvNN54oFoI2jGD+lekbL78JagIBMKjqFtmxBSdxA/zAAAABHNzaDo= primary key for jack@stackhpc.com generated at 2024-09-01
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIO9zA9hjxW+NqldrKRjFl3bjC9+9ZupKxISeOUauS1JhAAAABHNzaDo= secondary key for jack@stackhpc.com generated at 2024-09-01

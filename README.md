@@ -2,7 +2,7 @@ bastion-terraform
 =================
 
 This repo contains Terraform script for provisioning a bastion host and
-managing users on the instance.
+managing users and their SSH keys on the instance.
 
 Configuration
 -------------
@@ -21,8 +21,8 @@ On the remote terraform backend, ensure that the following variables are defined
 Administration
 --------------
 
-To add a new user, create a new file under `authorized_keys/<user>` with SSH
-public key for the given user then create a pull request.
+To add a new user, create a new file under `authorized_keys/<user>` with the
+SSH public key for the given user then create a pull request.
 
 To remove a user, delete `authorized_keys/<user>` and create a pull request.
 
@@ -32,5 +32,6 @@ If you are running this on your local machine:
     terraform init  # first time only
     terraform apply
 
-Maintainer:
-- bharat@stackhpc.com
+Maintainers
+----------
+See [CODEOWNERS](./.github/CODEOWNERS).

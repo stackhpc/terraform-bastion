@@ -1,2 +1,6 @@
-sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAILUpqzGBTFgK7nBxItBmExcsYD6P5cCj0dkXvAKNPQRhAAAABHNzaDo= gavin StackHPC key - 2025-03-04
-sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMNnTYo44RrPU/fmJshNBUrzmsRO2gKTeGIDVsRpMgHBAAAABHNzaDo= gavin StackHPC key - 2025-03-04
+## Old keys on broken Dell laptop
+## sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAILUpqzGBTFgK7nBxItBmExcsYD6P5cCj0dkXvAKNPQRhAAAABHNzaDo= gavin StackHPC key - 2025-03-04
+## sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMNnTYo44RrPU/fmJshNBUrzmsRO2gKTeGIDVsRpMgHBAAAABHNzaDo= gavin StackHPC key - 2025-03-04
+
+## Keys on Mac
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICwAbHpYb854ogWlHXxiayiIe1w8JvlXAp5U2Os3zElLAAAABHNzaDo= gavinheffernan StackHPC key - 2025-10-10
